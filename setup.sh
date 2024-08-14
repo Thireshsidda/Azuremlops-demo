@@ -26,9 +26,10 @@ az extension add -n ml -y
 
 ## For backward compatibility - running on old subscription
 # <set_variables>
-GROUP="GLJ041724"
+GROUP="default_resource_group"
 LOCATION="eastus"
-WORKSPACE="gljml140624"
+WORKSPACE= "test_workspace_azure_ml"
+
 # </set_variables>
 
 # If RESOURCE_GROUP_NAME is empty, the az configure is pending.
