@@ -13,8 +13,8 @@ jobs:
       data:
            # path: azureml://subscriptions/173ef898-5b47-4b9f-af61-8086de765cf8/resourcegroups/default_resource_group/workspaces/test_workspace_azure_ml/datastores/workspaceblobstore/paths/UI/2024-08-15_083346_UTC/carmpg.csv
            # type: uri_file
-           "path": "azureml://datastores/workspaceblobstore/paths/LocalUpload/fbcd3c1fe9cde162b392dbeb1238f9ac/data/",
-           "type": "uri_folder"
+           "path": azureml://subscriptions/173ef898-5b47-4b9f-af61-8086de765cf8/resourcegroups/default_resource_group/workspaces/test_workspace_azure_ml/datastores/workspaceblobstore/paths/LocalUpload/fbcd3c1fe9cde162b392dbeb1238f9ac/data/
+           "type": uri_folder
            
     outputs:
       train_data: 
