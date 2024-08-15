@@ -47,28 +47,40 @@
 # mlflow.end_run()
 
 
-import logging
-import mlflow
-import pandas as pd
-from pathlib import Path
-import os
-from sklearn.model_selection import train_test_split
-from azureml.fsspec import AzureMachineLearningFileSystem
-from azure.ai.ml import MLClient
-from azure.identity import DefaultAzureCredential
+# import logging
+# import mlflow
+# import pandas as pd
+# from pathlib import Path
+# import os
+# from sklearn.model_selection import train_test_split
+# from azureml.fsspec import AzureMachineLearningFileSystem
+# from azure.ai.ml import MLClient
+# from azure.identity import DefaultAzureCredential
 
-# Start Logging
-mlflow.start_run()
+# # Start Logging
+# mlflow.start_run()
 
-# Azure Blob Storage setup
-ml_client = MLClient.from_config(credential=DefaultAzureCredential())
-uri = "azureml://subscriptions/173ef898-5b47-4b9f-af61-8086de765cf8/resourcegroups/default_resource_group/workspaces/test_workspace_azure_ml/datastores/workspaceblobstore"
+# # Azure Blob Storage setup
+# ml_client = MLClient.from_config(credential=DefaultAzureCredential())
+# uri = "azureml://subscriptions/173ef898-5b47-4b9f-af61-8086de765cf8/resourcegroups/default_resource_group/workspaces/test_workspace_azure_ml/datastores/workspaceblobstore"
 
-fs = AzureMachineLearningFileSystem(uri)
-paths = fs.glob('/LocalUpload/fbcd3c1fe9cde162b392dbeb1238f9ac/data/*.csv')
+# fs = AzureMachineLearningFileSystem(uri)
+# paths = fs.glob('/LocalUpload/fbcd3c1fe9cde162b392dbeb1238f9ac/data/*.csv')
 
-# Read all CSV files from Azure Blob Storage into a single DataFrame
-df = pd.concat((pd.read_csv(fs.open(path)) for path in paths))
+# # Read all CSV files from Azure Blob Storage into a single DataFrame
+# df = pd.concat((pd.read_csv(fs.open(path)) for path in paths))
+
+from azureml.core import Workspace, Dataset, Datastore
+
+subscription_id = '173ef898-5b47-4b9f-af61-8086de765cf8'
+resource_group = 'default_resource_group'
+workspace_name = 'test_workspace_azure_ml'
+
+workspace = Workspace(subscription_id, resource_group, workspace_name)
+
+datastore = Datastore.get(workspace, "workspaceblobstore")
+dataset = Dataset.Tabular.from_delimited_files(path=(datastore, 'LocalUpload/fbcd3c1fe9cde162b392dbeb1238f9ac/data/carmpg.csv'))
+df = dataset.to_pandas_dataframe()
 
 # Split the DataFrame into train and test sets
 train_df, test_df = train_test_split(df, test_size=0.3, random_state=4)
