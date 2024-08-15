@@ -12,7 +12,8 @@ jobs:
     inputs:
       data: 
           type: uri_folder 
-          path: ./data
+          path: jobs/autompg_pipeline/data
+          #./data
     outputs:
       train_data: 
         mode: upload
